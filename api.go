@@ -484,13 +484,21 @@ func (api *API) GetDBSize() (out *DBSizeResp, err error) {
 	return
 }
 
-func (api *API) GetTransaction(id string) (out *TransactionResp, err error) {
-	err = api.call("history", "get_transaction", M{"id": id}, &out)
+func (api *API) GetTransaction(id string,height int32) (out *TransactionResp, err error) {
+	m := M{"id":id}
+	if height>0{
+		m["block_num_hint"] = height
+	}
+	err = api.call("history", "get_transaction",m, &out)
 	return
 }
 
-func (api *API) GetTransactionRaw(id string) (out json.RawMessage, err error) {
-	err = api.call("history", "get_transaction", M{"id": id}, &out)
+func (api *API) GetTransactionRaw(id string,height int32) (out json.RawMessage, err error) {
+	m := M{"id":id}
+	if height>0{
+		m["block_num_hint"] = height
+	}
+	err = api.call("history", "get_transaction",m, &out)
 	return
 }
 
